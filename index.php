@@ -81,17 +81,17 @@ if (isset($_GET["action"])) {
     $query = "SELECT * FROM productInfo ORDER BY id ASC";
     $result = mysqli_query($connection, $query);
     
-    // $query2 = "SELECT * FROM productPic ORDER BY id ASC";
-    // $result2 = mysqli_query($connection, $query2);
+    $query2 = "SELECT * FROM productPic ORDER BY id ASC";
+    $result2 = mysqli_query($connection, $query2);
     //check to see if the database has any rows
-    if (mysqli_num_rows($result) > 0) {
+    if (mysqli_num_rows($result) > 0 and mysqli_num_rows($result2)) {
       
       //fetch all the data of the database
-      while ($row = mysqli_fetch_array($result)) {
+      while ($row = mysqli_fetch_array($result) and $row2 = mysqli_fetch_array($result2)) {
         ?>
         
         <form method="post" action="index.php?action=add&id=<?php echo $row["id"]; ?>">
-          
+          <img src="<?php echo $row2["image"]; ?>" class="img-responsive" height="200" width="100"/>
           <br />
           <h4><?php echo $row["name"]; ?> </h4>
           <h4>$<?php echo $row["price"]; ?> </h4>
