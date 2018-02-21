@@ -1,7 +1,7 @@
 <?php 
 
 session_start();
-$connection = mysqli_connect("localhost", "suraj", "", "labproject");
+$connection = mysqli_connect("localhost", "suraj", "", "miniproject");
 
 //code will execute if the add to cart button is pressed
 if (isset($_POST["add_to_cart"])) {
@@ -51,13 +51,6 @@ if (isset($_GET["action"])) {
     }
   }
 }
-
-
-
-// TODO: add another action somehow to select type of category
-
-// two actions - add to cart or remove from cart
-
 ?>
 
 
@@ -70,9 +63,28 @@ if (isset($_GET["action"])) {
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
 </head>
 <body>
+  
+  
   <h2 align="center">Suraj's PHP Shopping Cart</h2>
   
+  <br/>
+  
   <div class="container" style="width:700px;">  
+    
+    
+    <?php 
+    
+    
+    $sql = "SELECT category FROM productInfo GROUP BY category";
+    $result = mysqli_query($connection, $sql);
+    
+    echo "<select name='username'>";
+    while ($row = mysqli_fetch_array($result)) {
+      echo "<option value='" . $row['category'] ."'>" . $row['category'] ."</option>";
+    }
+    echo "</select>";
+    ?>
+    
     
     <h3 align="center">Products</h3>
     <?php 
@@ -96,6 +108,8 @@ if (isset($_GET["action"])) {
           <h4><?php echo $row["name"]; ?> </h4>
           <h4>$<?php echo $row["price"]; ?> </h4>
           <h4>Category: <?php echo $row["category"]; ?> </h4>
+          <h4>Stock: <?php echo $row["amount"]; ?> </h4>
+          <br />
           <input type="number" name="quantity" class="form-control" value="1" min="1"/>  
           <input type="hidden" name="hidden_category" value="<?php echo $row["category"]; ?>" />
           <input type="hidden" name="hidden_name" value="<?php echo $row["name"]; ?>" />  

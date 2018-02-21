@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `productInfo` (
   `code` varchar(50) NOT NULL,
   `price` Int NOT NULL, 
   `category` varchar(50) NOT NULL,
-  `quantity` Int NOT NULL,
+  `amount` Int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY product_code (`code`)
 );
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `productPic` (
   PRIMARY KEY (`id`)
 );
 
-INSERT INTO `productInfo` (`id`, `name`, `code`, `price`, `category`) VALUES
+INSERT INTO `productInfo` (`id`, `name`, `code`, `price`, `category`, `amount`) VALUES
 (1, 'Apple', 'Ac3401', 4, 'grocery', 20),
 (2, 'Banana', 'Bc3822', 3, 'grocery', 20),
 (3, 'Bread', 'Br4281', 2, 'grocery', 30),
