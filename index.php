@@ -7,58 +7,44 @@ $connection = mysqli_connect("localhost", "suraj", "", "miniproject");
 if (isset($_POST["addCart"])) {
   
   //creates a new session shopping cart
-  if (isset($_SESSION["shoppingCart"])) {
+  if (isset($_SESSION["productCart"])) {
     
     //gets the items in the shopping cart by ID and puts it in an array
     //two values, one creates a session, the other gets the data from the column I want - ids
-    $itemArrayID = array_column($_SESSION["shoppingCart"], "itemID");
+    $itemArrayID = array_column($_SESSION["productCart"], "itemID");
     if (!in_array($_GET["id"], $itemArray)) {
       //keeps a count and then sets each value in the database to a variable in an array
-      $count = count($_SESSION["shoppingCart"]);
-      $itemArray = array(
-        'id'=>$_GET["id"],
-        'name'=>$_POST["name"],
-        'price'=>$_POST["price"],
-        'category'=>$_POST["category"],
-        'quantity'=>$_POST["quantity"]
-      );
+      $count = count($_SESSION["productCart"]);
+      $itemArray = array('id'=>$_GET["id"], 'name'=>$_POST["name"], 'price'=>$_POST["price"], 'category'=>$_POST["category"], 'quantity'=>$_POST["quantity"]);
       //keeps an indexed count in this session to keep track of how many items were added to cart
-      $_SESSION["shoppingCart"][$count] = $itemArray;
+      $_SESSION["productCart"][$count] = $itemArray;
     } 
 
   } 
   else {
     //if there's no data, then the else block will execute
-    $itemArray = array(
-      'id'=>$_GET["id"],
-      'name'=>$_POST["hidden_name"],
-      'price'=>$_POST["hidden_price"],
-      'category'=>$_POST["hidden_category"],
-      'quantity'=>$_POST["quantity"]
-    );
+    $itemArray = array('id'=>$_GET["id"], 'name'=>$_POST["hidden_name"], 'price'=>$_POST["hidden_price"], 'category'=>$_POST["hidden_category"], 'quantity'=>$_POST["quantity"]);
     //store all the data into the itemArray array
-    $_SESSION["shoppingCart"][0] = $itemArray;
+    $_SESSION["productCart"][0] = $itemArray;
   }
 }
 
 
 if (isset($_GET["action"])) {
   if ($_GET["action"] == "delete") {
-    foreach ($_SESSION["shoppingCart"] as $keys=>$values) {
+    foreach ($_SESSION["productCart"] as $keys=>$values) {
       if ($values["id"] == $_GET["id"]) {
-        unset($_SESSION["shoppingCart"][$keys]);
+        unset($_SESSION["productCart"][$keys]);
       }
     }
   }
 }
 ?>
 
-
 <!DOCTYPE html>
 <html>
 <head>
   <title>Suraj's Products</title>
-  
 </head>
 <body>
   
@@ -66,9 +52,6 @@ if (isset($_GET["action"])) {
   <h2 align="center">Suraj's PHP Shopping Cart</h2>
   
   <br/>
-  
-  <div class="container" style="width:700px;">  
-    
     
     <?php 
     
@@ -99,22 +82,17 @@ if (isset($_GET["action"])) {
       ?>
       
       <form method="post" action="index.php?action=add&id=<?php echo $row["id"]; ?>">
-        <h4><?php echo $row["name"]; ?> </h4>
-        <h4>$<?php echo $row["price"]; ?> </h4>
-        <h4>Stock: <?php echo $row2["amount"];
-        $row2["amount"] = "UPDATE amount FROM productInfo WHERE";
-
-         ?> </h4>
-        <h4>Category: <?php echo $row["category"]; ?> </h4>
+        <h3>Item: <?php echo $row["name"]; ?> </h3>
+        <h3>Price: $<?php echo $row["price"]; ?> </h3>
+        <h3>Stock: <?php echo $row2["amount"]; ?> </h3>
+        <h3>Category: <?php echo $row["category"]; ?> </h3>
         <input type="number" name="quantity" class="form-control" value="1" min="1"/>  
         <input type="hidden" name="category" value="<?php echo $row["category"]; ?>" />
         <input type="hidden" name="name" value="<?php echo $row["name"]; ?>" />  
         <input type="hidden" name="price" value="<?php echo $row["price"]; ?>" />  
-        <br />
         <input type="submit" name="addCart" value="Add to Cart" />  
         <br />
       </form>
-    </div>
     
     <?php
   }
@@ -137,9 +115,9 @@ if (isset($_GET["action"])) {
     
     <?php
     //check if shopping cart is not empty
-    if (!empty($_SESSION["shoppingCart"])) {
+    if (!empty($_SESSION["productCart"])) {
       $total = 0;
-      foreach ($_SESSION["shoppingCart"] as $keys=>$values) {
+      foreach ($_SESSION["productCart"] as $keys=>$values) {
         ?>
         <tr>
           <td align="center" colspan="3"><?php echo $values["name"]; ?> </td>
