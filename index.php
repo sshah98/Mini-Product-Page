@@ -11,7 +11,7 @@ if (isset($_POST["addCart"])) {
     
     //gets the items in the shopping cart by ID and puts it in an array
     //two values, one creates a session, the other gets the data from the column I want - ids
-    $itemArrayID = array_column($_SESSION["productCart"], "itemID");
+    $itemArrayID = array($_SESSION["productCart"], "itemID");
     if (!in_array($_GET["id"], $itemArrayID)) {
       //keeps a count and then sets each value in the database to a variable in an array
       $count = count($_SESSION["productCart"]);
@@ -22,7 +22,7 @@ if (isset($_POST["addCart"])) {
   } 
   else {
     //if there's no data, then the else block will execute
-    $itemArray = array('id'=>$_GET["id"], 'name'=>$_POST["hidden_name"], 'price'=>$_POST["hidden_price"], 'category'=>$_POST["hidden_category"], 'quantity'=>$_POST["quantity"]);
+    $itemArray = array('id'=>$_GET["id"], 'name'=>$_POST["name"], 'price'=>$_POST["price"], 'category'=>$_POST["category"], 'quantity'=>$_POST["quantity"]);
     //store all the data into the itemArray array
     $_SESSION["productCart"][0] = $itemArray;
   }
