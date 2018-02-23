@@ -19,7 +19,7 @@ if (isset($_POST["addCart"])) {
       //keeps an indexed count in this session to keep track of how many items were added to cart
       $_SESSION["productCart"][$count] = $itemArray;
     }
-  } 
+  }
   else {
     //if there's no data, then the else block will execute
     $itemArray = array('id'=>$_GET["id"], 'name'=>$_POST["name"], 'price'=>$_POST["price"], 'category'=>$_POST["category"], 'quantity'=>$_POST["quantity"]);
@@ -61,8 +61,8 @@ if (isset($_GET["action"])) {
   <h3 align="center">Products</h3>
   
   
-  <form action="index.php" method="POST"> 
-    <input type="text" id="search"> 
+  <form action="" method="post"> 
+    <input type="text" id="search" name="search "> 
     <input type="submit" value="search"> 
   </form>
   
@@ -72,14 +72,13 @@ if (isset($_GET["action"])) {
   $query = "SELECT * FROM productInfo ORDER BY id ASC";
   $query2 = "SELECT * FROM productStock ORDER BY id ASC";
   
-  // $search = $_POST["search"];
-  // 
-  // if($search == 'grocery' or $search == 'technology' or $search = 'clothes') {
-  //   $query = "SELECT * FROM productInfo WHERE category LIKE '%$search%'";
-  // }
+  $search = $_POST["search"];
+  
+  if($search == 'grocery' or $search == 'technology' or $search == 'clothes') {
+    $query = "SELECT * FROM productInfo WHERE category LIKE '%$search%'";
+  }
   // else if($search == "Apple" or $search=="Banana" or $search=="Bread" or $search=="Chips" or $search== "Juice" or $search=="Milk" or $search == "Tomato" or $search == "Camera" or $search == "Headphones" or $search == "Laptop" or $search == "Phone" or $search == "Printer" or $search == "Speakers" or $search == "TV" or $search == "Hoodie" or $search == "Jacket" or $search == "Jeans" or $search == "Shirt" or $search == "Shoes" or $search == "Shorts" or $search == "Sunglasses") {
   //   $query = "SELECT * FROM productInfo WHERE name LIKE '%$search%'";
-  // 
   // }
   // else {
   //   $query = "SELECT * FROM productInfo ORDER BY id ASC";
