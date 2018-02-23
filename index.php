@@ -59,37 +59,35 @@ if (isset($_GET["action"])) {
   
   <br/>
   <h3 align="center">Products</h3>
-
   
-  <form action="" method="post"> 
-  <input type="text" id="search"> 
-  <input type="submit" value="search"> 
   
+  <form action="index.php" method="POST"> 
+    <input type="text" id="search"> 
+    <input type="submit" value="search"> 
+  </form>
   
   <?php
-  if($search == "grocery" or $search == "technology" or $search = "clothes") {
-    $query = "SELECT * FROM productInfo WHERE name LIKE '%search%'";
-  }
-  else if($search == "Apple" or $search == "Banana" or $search == "Bread" or $search == "Chips" or $search == "Juice" or $search == "Milk" or $search == "Tomato" or $search == "Camera" or $search == "Headphones" or $search == "Laptop" or $search == "Phone" or $search == "Printer" or $search == "Speakers" or $search == "TV" or $search == "Hoodie" or $search == "Jacket" or $search == "Jeans" or $search == "Shirt" or $search == "Shoes" or $search == "Shorts" or $search == "Sunglasses") {
-    
-    
-    
-  }
   
-  ?>
-
   
-  <?php 
-  
-  // get queries from both tables (one with info and one with pictures)
   $query = "SELECT * FROM productInfo ORDER BY id ASC";
-  $result = mysqli_query($connection, $query);
-  
   $query2 = "SELECT * FROM productStock ORDER BY id ASC";
-  $result2 = mysqli_query($connection, $query2);
   
   $search = $_POST["search"];
-  // if($search == "")
+  
+  if($search == 'grocery' or $search == 'technology' or $search = 'clothes') {
+    $query = "SELECT * FROM productInfo WHERE category LIKE '%$search%'";
+  }
+  else if($search == "Apple" or $search=="Banana" or $search=="Bread" or $search=="Chips" or $search== "Juice" or $search=="Milk" or $search == "Tomato" or $search == "Camera" or $search == "Headphones" or $search == "Laptop" or $search == "Phone" or $search == "Printer" or $search == "Speakers" or $search == "TV" or $search == "Hoodie" or $search == "Jacket" or $search == "Jeans" or $search == "Shirt" or $search == "Shoes" or $search == "Shorts" or $search == "Sunglasses") {
+    $query = "SELECT * FROM productInfo WHERE name LIKE '%$search%'";
+    
+  }
+  else {
+    $query = "SELECT * FROM productInfo ORDER BY id ASC";
+  }
+  
+  // get queries from both tables (one with info and one with pictures)
+  $result = mysqli_query($connection, $query);
+  $result2 = mysqli_query($connection, $query2);
   
   
   //fetch all the data of the database
