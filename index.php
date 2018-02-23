@@ -58,33 +58,27 @@ if (isset($_GET["action"])) {
   <h2 align="center">Suraj's PHP Shopping Cart</h2>
   
   <br/>
+  <h3 align="center">Products</h3>
+
+  
+  <form action="" method="post"> 
+  <input type="text" id="search"> 
+  <input type="submit" value="search"> 
   
   
-  <?php 
-  $sql = "SELECT category FROM productInfo GROUP BY category";
-  $result = mysqli_query($connection, $sql);
-  
-  $query = "SELECT * FROM productInfo ORDER BY id ASC";
-  $result2 = mysqli_query($connection, $query);
-  
-  echo "<select name='category'>";
-  while ($row = mysqli_fetch_array($result) and $row2 = mysqli_fetch_array($result2)) {
-    echo "<option value='" . $row['category'] ."'>" . $row['category'] ."</option>";
-    ?>
-    <h3> test <?php echo $row2["name"]; ?></h3>
-    
-    
   <?php
+  if($search == "grocery" or $search == "technology" or $search = "clothes") {
+    $query = "SELECT * FROM productInfo WHERE name LIKE '%search%'";
+  }
+  else if($search == "Apple" or $search == "Banana" or $search == "Bread" or $search == "Chips" or $search == "Juice" or $search == "Milk" or $search == "Tomato" or $search == "Camera" or $search == "Headphones" or $search == "Laptop" or $search == "Phone" or $search == "Printer" or $search == "Speakers" or $search == "TV" or $search == "Hoodie" or $search == "Jacket" or $search == "Jeans" or $search == "Shirt" or $search == "Shoes" or $search == "Shorts" or $search == "Sunglasses") {
+    
     
     
   }
-  echo "</select>";
-  ?>
   
+  ?>
 
   
-  
-  <h3 align="center">Products</h3>
   <?php 
   
   // get queries from both tables (one with info and one with pictures)
@@ -93,6 +87,10 @@ if (isset($_GET["action"])) {
   
   $query2 = "SELECT * FROM productStock ORDER BY id ASC";
   $result2 = mysqli_query($connection, $query2);
+  
+  $search = $_POST["search"];
+  // if($search == "")
+  
   
   //fetch all the data of the database
   while ($row = mysqli_fetch_array($result) and $row2 = mysqli_fetch_array($result2)) {
