@@ -43,9 +43,9 @@ if (isset($_GET["action"])) {
     foreach ($_SESSION["productCart"] as $keys=>$values) {
       if ($values["id"] == $_GET["id"]) {
         
-        $quan = $_POST["quantity"];
-        $name = $_POST["name"];
-        
+        $quan = $_GET["quantity"];
+        $name = $_GET["name"];
+
         $sql = "UPDATE productStock SET productStock.amount=productStock.amount + '$quan' WHERE productStock.name = '$name'";
         mysqli_query($connection, $sql);
 
@@ -57,11 +57,21 @@ if (isset($_GET["action"])) {
         }
         
         unset($_SESSION["productCart"][$keys]);
+        
+
+        
+        
       }
     }
   }
+  
+  
+
 
 }
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -136,7 +146,7 @@ if (isset($_GET["action"])) {
       <h3>Price: $<?php echo $row["price"]; ?> </h3>
       <h3>Stock: <?php echo $row2["amount"]; ?> </h3>
       <h3>Category: <?php echo $row["category"]; ?> </h3>
-      <input type="number" name="quantity" class="form-control" value="1" min="1" max="50"/>  
+      <input type="number" name="quantity" value="1" min="1" max="50"/>  
       <input type="hidden" name="category" value="<?php echo $row["category"]; ?>" />
       <input type="hidden" name="name" value="<?php echo $row["name"]; ?>" />  
       <input type="hidden" name="price" value="<?php echo $row["price"]; ?>" />  
