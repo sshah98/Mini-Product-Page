@@ -42,12 +42,13 @@ if (isset($_GET["action"])) {
   if ($_GET["action"] == "delete") {
     foreach ($_SESSION["productCart"] as $keys=>$values) {
       if ($values["id"] == $_GET["id"]) {
-        // $sql = "UPDATE productStock SET amount=10";
         
         $quan = $_POST["quantity"];
         $name = $_POST["name"];
         
-        $sql = "UPDATE productStock SET productStock.amount = productStock.amount + '$quan' WHERE productStock.name = '$name'";
+        $sql = "UPDATE productStock SET productStock.amount=productStock.amount + '$quan' WHERE productStock.name = '$name'";
+        mysqli_query($connection, $sql);
+
         
         if (mysqli_query($connection, $sql)) {
           echo "Records were updated successfully.";
@@ -59,6 +60,7 @@ if (isset($_GET["action"])) {
       }
     }
   }
+
 }
 ?>
 
@@ -76,10 +78,30 @@ if (isset($_GET["action"])) {
   <h3 align="center">Products</h3>
   
   
+  <form action="" method="post">
+    <input type="submit" name="reset" value="Reset Stock" />  
+  </form>
+  
+  <?php
+  if(isset($_POST["reset"])) {
+    $sql = "UPDATE productStock SET amount=50";
+    mysqli_query($connection, $sql);
+  }
+
+  ?>
+  <br/>
+  
+  Search for a category or item here. Please use uppercase when typing (ex: Apple, Banana) or category: (technology, clothes, grocery)
+  
+  To show all items, please click search again.
+  
+  
   <form action="" method="post"> 
     <input type="text" id="search" name="search"> 
     <input type="submit" value="search"> 
   </form>
+  
+  
   
   
   <?php
