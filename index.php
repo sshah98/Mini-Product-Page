@@ -1,7 +1,7 @@
 <?php 
 
 session_start();
-$connection = mysqli_connect("localhost", "suraj", "", "miniproject");
+$connection = mysqli_connect("localhost", "suraj98", "suraj98", "suraj98");
 
 //code will execute if the add to cart button is pressed
 if (isset($_POST["addCart"])) {
