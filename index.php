@@ -6,6 +6,15 @@ $connection = mysqli_connect("localhost", "suraj", "", "miniproject");
 //code will execute if the add to cart button is pressed
 if (isset($_POST["addCart"])) {
   
+  $quan = $_POST["quantity"];
+  $name = $_POST["name"];
+  
+  
+  $query = "UPDATE productStock SET productStock.amount=productStock.amount - '$quan' WHERE productStock.name = '$name'";
+
+  mysqli_query($connection, $query);
+    
+  
   //creates a new session shopping cart
   if (isset($_SESSION["productCart"])) {
     
@@ -33,7 +42,13 @@ if (isset($_GET["action"])) {
   if ($_GET["action"] == "delete") {
     foreach ($_SESSION["productCart"] as $keys=>$values) {
       if ($values["id"] == $_GET["id"]) {
-        $sql = "UPDATE productStock SET amount=10";
+        // $sql = "UPDATE productStock SET amount=10";
+        
+        $quan = $_POST["quantity"];
+        $name = $_POST["name"];
+        
+        $sql = "UPDATE productStock SET productStock.amount = productStock.amount + '$quan' WHERE productStock.name = '$name'";
+        
         if (mysqli_query($connection, $sql)) {
           echo "Records were updated successfully.";
         } else {
@@ -62,27 +77,28 @@ if (isset($_GET["action"])) {
   
   
   <form action="" method="post"> 
-    <input type="text" id="search" name="search "> 
+    <input type="text" id="search" name="search"> 
     <input type="submit" value="search"> 
   </form>
   
-  <?php
   
+  <?php
   
   $query = "SELECT * FROM productInfo ORDER BY id ASC";
   $query2 = "SELECT * FROM productStock ORDER BY id ASC";
   
   $search = $_POST["search"];
   
+  //searching works by changing the orignal query to a new query, depending on 
   if($search == 'grocery' or $search == 'technology' or $search == 'clothes') {
     $query = "SELECT * FROM productInfo WHERE category LIKE '%$search%'";
   }
-  // else if($search == "Apple" or $search=="Banana" or $search=="Bread" or $search=="Chips" or $search== "Juice" or $search=="Milk" or $search == "Tomato" or $search == "Camera" or $search == "Headphones" or $search == "Laptop" or $search == "Phone" or $search == "Printer" or $search == "Speakers" or $search == "TV" or $search == "Hoodie" or $search == "Jacket" or $search == "Jeans" or $search == "Shirt" or $search == "Shoes" or $search == "Shorts" or $search == "Sunglasses") {
-  //   $query = "SELECT * FROM productInfo WHERE name LIKE '%$search%'";
-  // }
-  // else {
-  //   $query = "SELECT * FROM productInfo ORDER BY id ASC";
-  // }
+  else if($search == "Apple" or $search=="Banana" or $search=="Bread" or $search=="Chips" or $search== "Juice" or $search=="Milk" or $search == "Tomato" or $search == "Camera" or $search == "Headphones" or $search == "Laptop" or $search == "Phone" or $search == "Printer" or $search == "Speakers" or $search == "TV" or $search == "Hoodie" or $search == "Jacket" or $search == "Jeans" or $search == "Shirt" or $search == "Shoes" or $search == "Shorts" or $search == "Sunglasses") {
+    $query = "SELECT * FROM productInfo WHERE name LIKE '%$search%'";
+  }
+  else {
+    $query = "SELECT * FROM productInfo ORDER BY id ASC";
+  }
   
   // get queries from both tables (one with info and one with pictures)
   $result = mysqli_query($connection, $query);
@@ -98,7 +114,7 @@ if (isset($_GET["action"])) {
       <h3>Price: $<?php echo $row["price"]; ?> </h3>
       <h3>Stock: <?php echo $row2["amount"]; ?> </h3>
       <h3>Category: <?php echo $row["category"]; ?> </h3>
-      <input type="number" name="quantity" class="form-control" value="1" min="1"/>  
+      <input type="number" name="quantity" class="form-control" value="1" min="1" max="50"/>  
       <input type="hidden" name="category" value="<?php echo $row["category"]; ?>" />
       <input type="hidden" name="name" value="<?php echo $row["name"]; ?>" />  
       <input type="hidden" name="price" value="<?php echo $row["price"]; ?>" />  
